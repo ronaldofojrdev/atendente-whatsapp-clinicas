@@ -88,6 +88,25 @@ São scripts que rodam uma vez e saem, feitos para o cron ou o Task Scheduler:
 
 O bot responde em até 3 linhas, termina com uma pergunta, não informa preço fechado e não dá diagnóstico.
 
+## Exemplo no modo demo
+
+Saída de uma execução real do `npm run demo`, com a clínica fictícia do `seed.ts`. Não precisa de conta na Meta:
+
+```
+Você: Oi, queria saber se vocês fazem clareamento dental
+Bot: Oi, tudo bem? Fazemos clareamento sim, é um tratamento ótimo. Você já é paciente aqui na clínica?
+Você: Nunca fui paciente de vocês, é a primeira vez
+Bot: Legal, seja muito bem-vinda. Qual o melhor dia e turno para você vir fazer o clareamento?
+Você: Prefiro de manhã, de preferência na terça
+Bot: Perfeito. Anotei aqui: clareamento dental, preferência terça de manhã. Vou confirmar a agenda e já te retorno com o horário certinho. Pode ser?
+  [LEAD REGISTRADO] procedimento: clareamento dental, ja e paciente: nao, preferencia: terça de manhã
+Você: estou com muita dor no dente desde ontem
+Bot: Vou chamar alguém da equipe pra te responder certinho, só um instante.
+  [ESCALADO] motivo: dor ou urgência. Avisando 5511988887777.
+```
+
+Na última mensagem a palavra "dor" aciona a regra de palavra-chave, então a conversa é transferida sem chamar o modelo.
+
 ## Decisões de projeto
 
 **Casos sensíveis não passam pelo modelo.** Dor, urgência, reclamação de procedimento, pedido de diagnóstico, remarcação e pedido de atendente humano são tratados por expressões regulares em `src/ai/escalation.ts`, antes de qualquer chamada à IA. Numa clínica, esses casos não podem depender de o modelo ter entendido bem, e ainda economizam uma chamada.
