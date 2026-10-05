@@ -1,5 +1,7 @@
 # atendente-whatsapp-clinicas
 
+![CI](https://github.com/ronaldofojrdev/atendente-whatsapp-clinicas/actions/workflows/ci.yml/badge.svg) ![Node](https://img.shields.io/badge/node-18%2B-339933) ![License](https://img.shields.io/badge/license-MIT-lightgrey)
+
 Atendente de WhatsApp com IA para clínicas de odontologia e estética. Uma instalação atende várias clínicas ao mesmo tempo: cada clínica é uma linha no banco, identificada pelo `phone_number_id` do número dela na Cloud API oficial da Meta.
 
 Cadastrar uma clínica nova não exige mexer em código, é só rodar um comando.
