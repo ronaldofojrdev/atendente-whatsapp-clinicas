@@ -1,0 +1,31 @@
+{
+  "name": "atendente-clinicas",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Atendente automatico de WhatsApp com IA para clinicas de odontologia e estetica, multi-tenant",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsc -p .",
+    "start": "node dist/server.js",
+    "dev": "tsx watch src/server.ts",
+    "add-clinic": "tsx src/cli/add-clinic.ts",
+    "demo": "tsx src/cli/demo.ts",
+    "set-appointment": "tsx src/cli/set-appointment.ts",
+    "send-reminders": "tsx src/cli/send-reminders.ts",
+    "reactivate": "tsx src/cli/reactivate.ts",
+    "report": "tsx src/cli/report.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.68.0",
+    "@google/genai": "^0.15.0",
+    "better-sqlite3": "^11.10.0",
+    "dotenv": "^16.4.5",
+    "fastify": "^5.12.5"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.11",
+    "@types/node": "^22.10.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}
