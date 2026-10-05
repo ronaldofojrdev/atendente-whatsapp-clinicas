@@ -1,6 +1,6 @@
 # atendente-whatsapp-clinicas
 
-![CI](https://github.com/ronaldofojrdev/atendente-whatsapp-clinicas/actions/workflows/ci.yml/badge.svg) ![Node](https://img.shields.io/badge/node-18%2B-339933) ![License](https://img.shields.io/badge/license-MIT-lightgrey)
+![Node](https://img.shields.io/badge/node-18%2B-339933) ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 
 Atendente de WhatsApp com IA para clínicas de odontologia e estética. Uma instalação atende várias clínicas ao mesmo tempo: cada clínica é uma linha no banco, identificada pelo `phone_number_id` do número dela na Cloud API oficial da Meta.
 
@@ -87,6 +87,18 @@ São scripts que rodam uma vez e saem, feitos para o cron ou o Task Scheduler:
 6. Quando procedimento, "já é paciente" e preferência de horário estão completos, o lead é gravado e a conversa é encerrada.
 
 O bot responde em até 3 linhas, termina com uma pergunta, não informa preço fechado e não dá diagnóstico.
+
+## Decisões de projeto
+
+**Casos sensíveis não passam pelo modelo.** Dor, urgência, reclamação de procedimento, pedido de diagnóstico, remarcação e pedido de atendente humano são tratados por expressões regulares em `src/ai/escalation.ts`, antes de qualquer chamada à IA. Numa clínica, esses casos não podem depender de o modelo ter entendido bem, e ainda economizam uma chamada.
+
+**Saída do modelo em formato fixo.** No Claude, a resposta é forçada por uma ferramenta (`responder_cliente`) e, no Gemini, por JSON com schema. O código recebe sempre os mesmos campos (resposta, se entendeu, se deve transferir, dados do lead) e não precisa interpretar texto livre.
+
+**Quando o bot não entende duas vezes seguidas, transfere.** Em vez de insistir, `handleMessage.ts` conta as mensagens não entendidas da conversa e passa para a equipe na segunda.
+
+**Mensagens só da Meta.** Cada chamada ao webhook tem a assinatura `X-Hub-Signature-256` conferida com o App Secret antes de qualquer processamento.
+
+**Uma instalação, várias clínicas.** Credenciais e regras de cada clínica ficam no banco, e a clínica é achada pelo `phone_number_id`. Cadastrar uma nova não mexe em código.
 
 ## Banco de dados
 
